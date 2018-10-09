@@ -15,17 +15,17 @@ Changes:
  .
    * Initial release.
 Checksums-Sha1:
- db79b7447d7e436260d7c159b0e21e89695e1fc0 592 mx-pkexec_18.10.01.dsc
- c94155b318b106731ece58a43245c768a01e41f3 41504 mx-pkexec_18.10.01.tar.gz
- 9061b63a92174e8b43abd8e639eaccad81f15344 14804 mx-pkexec_18.10.01_all.deb
- 70b41605fd29e57bacad1855a6359dc04706a1f1 4939 mx-pkexec_18.10.01_amd64.buildinfo
+ 8a62b39f2f16c325f5be258912db05b41cdac108 595 mx-pkexec_18.10.01.dsc
+ 81d7eab294762da6cea7f9f26b77dabbf47e63e5 100262 mx-pkexec_18.10.01.tar.gz
+ b4a18da697bfde6d29b6f86608edfb1320b20a0e 14808 mx-pkexec_18.10.01_all.deb
+ 4f978c52e9f5bfcb7584d3ecd44613ee5998402d 4939 mx-pkexec_18.10.01_amd64.buildinfo
 Checksums-Sha256:
- 19ee8ffefdaa4091d78b360a87488066b9e20a9d45a00446e1ec4110bb228fa1 592 mx-pkexec_18.10.01.dsc
- 0d845b8d428d7c47ca3c5dd75e81896252aa717e65bf07049bf9355884db4f60 41504 mx-pkexec_18.10.01.tar.gz
- 908545ac91a571f6738e8e42a2e3bb373e3b16dbaf2f7d361d4a563a66377335 14804 mx-pkexec_18.10.01_all.deb
- 1eafb9044d8d107157df48312b688dadb8b8207a0dfdc4d877a13b20dca805fd 4939 mx-pkexec_18.10.01_amd64.buildinfo
+ fecbb68095c508c356a00af5988cc08a54df3bbfe685d2f6f37b57ba3362c924 595 mx-pkexec_18.10.01.dsc
+ 920d879713ede480bd67b6c35228683652129d2f9dc43b9aae1123c441cd31ce 100262 mx-pkexec_18.10.01.tar.gz
+ 68246b96d97131508c505361e22e5265404f20e876515cd421ccad7270c85631 14808 mx-pkexec_18.10.01_all.deb
+ 4b64298009c317c7b1cd974dc0218941c186a65f02edcfb30b6a51852e5642d4 4939 mx-pkexec_18.10.01_amd64.buildinfo
 Files:
- 87ce58ce05da3b3c2d640487581659f7 592 admin optional mx-pkexec_18.10.01.dsc
- 97d6c4b7089d5f1d497da182d9bfb61d 41504 admin optional mx-pkexec_18.10.01.tar.gz
- e64ffcf206291819eb2db91261d8ede3 14804 admin optional mx-pkexec_18.10.01_all.deb
- c0b114a0d05d8b091a175709a6476770 4939 admin optional mx-pkexec_18.10.01_amd64.buildinfo
+ d77b64fd9af0e32e83ab6ba3bbbe6785 595 admin optional mx-pkexec_18.10.01.dsc
+ cdbdad4fcefea852503f091c0e6547b8 100262 admin optional mx-pkexec_18.10.01.tar.gz
+ f80a012b3f4a789e842ab708bd273816 14808 admin optional mx-pkexec_18.10.01_all.deb
+ 10573d23edfeba072cf95eac0f81bbbe 4939 admin optional mx-pkexec_18.10.01_amd64.buildinfo
