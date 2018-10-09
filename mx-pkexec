@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# MX Linux pkexec wrapper to retain QT environment
+# Usage:
+#        mx-pkexec mx-apps ...
+# original code by fehlix for MX-Linux
+
+if test "$EUID" != 0; then
+    # normal user
+    QTENV="/tmp/mx-pkexec-qtenv.$EUID.$PPID.$$.$RANDOM$RANDOM"
+    env | grep -E '^QT_'  | sed -e 's/^/export /' 2>/dev/null  > "$QTENV"
+    chmod +r "$QTENV"
+    pkexec /usr/bin/mx-pkexec "--qtenv" "$QTENV" "${@}"
+    if [ -f "$QTENV" ] ; then
+        rm  $QTENV
+    fi
+fi
+if test "$EUID" == 0; then
+    # root user
+    if  [ "x$1" = "x--qtenv" ]; then
+        QTENV="$2"
+        shift
+        shift
+        if [ -r "$QTENV" -a  "$QTENV" != "${QTENV#/tmp/mx-pkexec-qtenv.}" ] ; then 
+            . $QTENV
+            rm  $QTENV
+        fi
+        PATH="/usr/local/bin:$PATH"
+    fi
+    echo Starting  "${@}"
+    exec "${@}"
+fi
+exit
+
