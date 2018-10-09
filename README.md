@@ -1,6 +1,8 @@
 # mx-pkexec
 pkexec wrapper for legacy apps
 
-use mx-pkexec appname  to utilize the wrapper
+usage:
+
+mx-pkexec appname  
 
 QT variables related to theme should be preserved.
