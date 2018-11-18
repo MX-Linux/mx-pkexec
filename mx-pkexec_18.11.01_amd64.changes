@@ -1,0 +1,31 @@
+Format: 1.8
+Date: Sun, 18 Nov 2018 09:38:34 -0500
+Source: mx-pkexec
+Binary: mx-pkexec
+Architecture: source all
+Version: 18.11.01
+Distribution: mx
+Urgency: medium
+Maintainer: Steven Pusser (Stevo) <maintainer@mepiscommunity.org>
+Changed-By: dolphin <dolphin@littlebyte>
+Description:
+ mx-pkexec  - mx-pkexec
+Changes:
+ mx-pkexec (18.11.01) mx; urgency=medium
+ .
+   * update to handle more arguements (fehlix)
+Checksums-Sha1:
+ a49b0474b4027cad45870845153c13d1a7519773 595 mx-pkexec_18.11.01.dsc
+ 0b4a5c4d2ae4f079ac5a309c410e810709c111c2 223657 mx-pkexec_18.11.01.tar.gz
+ 87159e353e0e95643bce402dca3aa940ceacdc48 14960 mx-pkexec_18.11.01_all.deb
+ bb5f720acdb29e92e4f54e10acbbfb2b24afe400 4937 mx-pkexec_18.11.01_amd64.buildinfo
+Checksums-Sha256:
+ d98b4afdda2641f04af4f015c4091fd5115b4371b8fe8386c578ffd11ec38049 595 mx-pkexec_18.11.01.dsc
+ 0f3e122beb37ea38ee823af88d2d2145cc840ba202c3e4155c6072923d5b1746 223657 mx-pkexec_18.11.01.tar.gz
+ 91cd9d02c9b7ce4c4074a75c11b1883d81526adb31130d28d706b9215e40a721 14960 mx-pkexec_18.11.01_all.deb
+ 22a05129a1035389d3111850b8a9742430e35587ab87484bbd0c882abbe18d80 4937 mx-pkexec_18.11.01_amd64.buildinfo
+Files:
+ b8510f80dc39098aeedc5bc54fffa348 595 admin optional mx-pkexec_18.11.01.dsc
+ fc0e24f8a39c6777e9c62bee4853bb63 223657 admin optional mx-pkexec_18.11.01.tar.gz
+ 02510e21f1221dd0264e092fc2cf225c 14960 admin optional mx-pkexec_18.11.01_all.deb
+ 2fb07d290fa7603a7f44bec1d08d9ea6 4937 admin optional mx-pkexec_18.11.01_amd64.buildinfo
