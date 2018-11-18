@@ -27,8 +27,12 @@ if test "$EUID" == 0; then
         fi
         PATH="/usr/local/bin:$PATH"
     fi
-    echo Starting  "${@}"
-    exec "${@}"
+    eval set "$@"
+    RUN="$1"
+    shift
+    echo Starting  "$RUN" "${@}"
+    command -v "$RUN" >/dev/null || { echo "mx-pkexec: Command '$RUN' not found"; exit 1; }
+    exec "$RUN" "${@}"
 fi
 exit
 
