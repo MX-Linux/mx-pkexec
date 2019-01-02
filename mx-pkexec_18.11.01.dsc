@@ -10,8 +10,8 @@ Build-Depends: debhelper (>= 7.0.50~)
 Package-List:
  mx-pkexec deb admin optional arch=all
 Checksums-Sha1:
- 0b4a5c4d2ae4f079ac5a309c410e810709c111c2 223657 mx-pkexec_18.11.01.tar.gz
+ 3723132c9bfc8d5f29edbffca3bdeb80ed7d218e 707277 mx-pkexec_18.11.01.tar.gz
 Checksums-Sha256:
- 0f3e122beb37ea38ee823af88d2d2145cc840ba202c3e4155c6072923d5b1746 223657 mx-pkexec_18.11.01.tar.gz
+ 5678059e3839381edde5bf4b89c894647e515547a6be0603fcc32eb78e4ee50e 707277 mx-pkexec_18.11.01.tar.gz
 Files:
- fc0e24f8a39c6777e9c62bee4853bb63 223657 mx-pkexec_18.11.01.tar.gz
+ ea6bf6f8c585296fe138ac849cd3e46b 707277 mx-pkexec_18.11.01.tar.gz
