@@ -1,3 +1,10 @@
+mx-pkexec (19.06.01) mx; urgency=medium
+
+  * add symlink to gksu
+  * add provides for gksu 
+
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Sun, 30 Jun 2019 12:51:09 -0400
+
 mx-pkexec (18.11.01) mx; urgency=medium
 
   * update to handle more arguements (fehlix) 

@@ -8,6 +8,7 @@ Vcs-Git: https://github.com/mx-linux/mx-pkexec
 
 Package: mx-pkexec
 Architecture: all
+Provides: gksu
 Depends: ${misc:Depends}, ${shlibs:Depends}, policykit-1
 Description: mx-pkexec
  wrapper for pkexec for legacy applications
