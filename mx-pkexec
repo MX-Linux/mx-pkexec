@@ -8,7 +8,7 @@
 if test "$EUID" != 0; then
     # normal user
     QTENV="/tmp/mx-pkexec-qtenv.$EUID.$PPID.$$.$RANDOM$RANDOM"
-    env | grep -E '^QT_'  | sed -e 's/^/export /' 2>/dev/null  > "$QTENV"
+    env | grep -E '^QT_|^LANG='  | sed -e 's/^/export /' 2>/dev/null  > "$QTENV"
     chmod +r "$QTENV"
     pkexec /usr/bin/mx-pkexec "--qtenv" "$QTENV" "${@}"
     if [ -f "$QTENV" ] ; then
@@ -17,6 +17,14 @@ if test "$EUID" != 0; then
 fi
 if test "$EUID" == 0; then
     # root user
+    # set XDG_RUNTIME_DIR - do nothing if already set
+    if [ x"$XDG_RUNTIME_DIR" = "x" ]; then
+      XDG_RUNTIME_DIR=/run/user/0
+      export XDG_RUNTIME_DIR
+      [ -d $XDG_RUNTIME_DIR ] || mkdir -p $XDG_RUNTIME_DIR
+      chmod 700 $XDG_RUNTIME_DIR
+      chown 0:0 $XDG_RUNTIME_DIR
+    fi
     if  [ "x$1" = "x--qtenv" ]; then
         QTENV="$2"
         shift
