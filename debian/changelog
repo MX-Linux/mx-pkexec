@@ -1,3 +1,10 @@
+mx-pkexec (20.01.01) mx; urgency=medium
+
+  * bash completion support (fehlix)
+  * strip unsupported parameters from gksu commands (fehlix)
+
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Fri, 31 Jan 2020 19:26:53 -0500
+
 mx-pkexec (19.07.01) mx; urgency=medium
 
   * update for user level lang settings 
