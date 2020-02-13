@@ -9,6 +9,7 @@ if test "$EUID" != 0; then
     # normal user
     QTENV="/tmp/mx-pkexec-qtenv.$EUID.$PPID.$$.$RANDOM$RANDOM"
     env | grep -E '^QT_|^LANG='  | sed -e 's/^/export /' 2>/dev/null  > "$QTENV"
+    echo "CURRENT_WORK_DIR=$PWD" >> "$QTENV"
     chmod +r "$QTENV"
     pkexec /usr/bin/mx-pkexec "--qtenv" "$QTENV" "${@}"
     if [ -f "$QTENV" ] ; then
@@ -32,6 +33,8 @@ if test "$EUID" == 0; then
         if [ -r "$QTENV" -a  "$QTENV" != "${QTENV#/tmp/mx-pkexec-qtenv.}" ] ; then 
             . $QTENV
             rm  $QTENV
+            cd "${CURRENT_WORK_DIR}" 
+            unset CURRENT_WORK_DIR
         fi
         PATH="/usr/local/bin:$PATH"
     fi
