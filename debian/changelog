@@ -1,3 +1,9 @@
+mx-pkexec (20.02.02) mx; urgency=medium
+
+  * quoted path fix (fehlix) 
+
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Thu, 13 Feb 2020 21:40:02 -0500
+
 mx-pkexec (20.02.01) mx; urgency=medium
 
   * including working directory in environment 
