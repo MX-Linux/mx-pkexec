@@ -7,13 +7,22 @@
 
 if test "$EUID" != 0; then
     # normal user
-    QTENV="/tmp/mx-pkexec-qtenv.$EUID.$PPID.$$.$RANDOM$RANDOM"
-    env | grep -E '^QT_|^LANG='  | sed -e 's/^/export /' 2>/dev/null  > "$QTENV"
+    QTENV="${XDG_RUNTIME_DIR:-/tmp}/mx-pkexec-qtenv.$EUID.$PPID.$$.$RANDOM$RANDOM"
+    if [ -f "$QTENV" ] ; then
+        rm  $QTENV
+    fi
+    umask 0022
+	touch "$QTENV"
+	while IFS=$'\n' read -r ENV; do 
+		IFS='=' read PAR VAL < <(echo $ENV); 
+		echo "export $PAR=${VAL@Q}" >> $QTENV 
+	done < <(printenv | grep -E '^LANG=|^LANGUAGE=|^LC_|^QT_')
+
     echo "CURRENT_WORK_DIR='$PWD'" >> "$QTENV"
     chmod +r "$QTENV"
     pkexec /usr/bin/mx-pkexec "--qtenv" "$QTENV" "${@}"
     if [ -f "$QTENV" ] ; then
-        rm  $QTENV
+       rm  $QTENV
     fi
 fi
 if test "$EUID" == 0; then
@@ -30,9 +39,9 @@ if test "$EUID" == 0; then
         QTENV="$2"
         shift
         shift
-        if [ -r "$QTENV" -a  "$QTENV" != "${QTENV#/tmp/mx-pkexec-qtenv.}" ] ; then 
-            . $QTENV
-            rm  $QTENV
+        if [ -f "$QTENV" -a  "x$QTENV" != "x${QTENV#*/mx-pkexec-qtenv.}" ] ; then 
+            . "$QTENV"
+            rm  "$QTENV"
             cd "${CURRENT_WORK_DIR}" 
             unset CURRENT_WORK_DIR
         fi
