@@ -1,3 +1,9 @@
+mx-pkexec (20.03.02) mx; urgency=medium
+
+  * update control file 
+
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Mon, 30 Mar 2020 22:52:45 -0400
+
 mx-pkexec (20.03.01) mx; urgency=medium
 
   * environment changes, incorporate locale 
