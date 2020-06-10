@@ -16,7 +16,7 @@ if test "$EUID" != 0; then
 	while IFS=$'\n' read -r ENV; do 
 		IFS='=' read PAR VAL < <(echo $ENV); 
 		echo "export $PAR=${VAL@Q}" >> $QTENV 
-	done < <(printenv | grep -E '^LANG=|^LANGUAGE=|^LC_|^QT_')
+	done < <(printenv | grep -E '^DESKTOP_SESSION|^KDE_FULL_SESSION=|^LANG=|^LANGUAGE=|^LC_|^QT_|^XDG_SESSION_TYPE|^WAYLAND_')
 
     echo "CURRENT_WORK_DIR='$PWD'" >> "$QTENV"
     chmod +r "$QTENV"
