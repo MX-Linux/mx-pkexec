@@ -52,9 +52,13 @@ if test "$EUID" == 0; then
         fi
         PATH="/usr/local/bin:$PATH"
     fi
+    
+    # check if command is given within one parameter, split by eval in case
+    [ $# == 1 ] && eval set "$@"
     RUN="$1"
     shift
-    # check parameter quoted twice and do unquote
+    
+    # check remaining parameter are quoted twice and do unquote
     [ $# != 0 ] && [ -z "${1##[\'\"]*}" ] && [ -z "${1%%*[\'\"]}" ] && eval set "$@"
     echo Starting  "$RUN" "${@@Q}"
     command -v "$RUN" >/dev/null || { echo "mx-pkexec: Command '$RUN' not found"; exit 1; }
