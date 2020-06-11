@@ -7,6 +7,11 @@
 
 if test "$EUID" != 0; then
     # normal user
+    # wayland fix (chkboom)
+    if [ x"$WAYLAND_DISPLAY" != "x" ] && [ -n "${WAYLAND_DISPLAY##/*}" ]; then
+       WAYLAND_DISPLAY=$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY
+    fi
+
     QTENV="${XDG_RUNTIME_DIR:-/tmp}/mx-pkexec-qtenv.$EUID.$PPID.$$.$RANDOM$RANDOM"
     if [ -f "$QTENV" ] ; then
         rm  $QTENV
@@ -47,10 +52,11 @@ if test "$EUID" == 0; then
         fi
         PATH="/usr/local/bin:$PATH"
     fi
-    eval set "$@"
     RUN="$1"
     shift
-    echo Starting  "$RUN" "${@}"
+    # check parameter quoted twice and do unquote
+    [ $# != 0 ] && [ -z "${1##[\'\"]*}" ] && [ -z "${1%%*[\'\"]}" ] && eval set "$@"
+    echo Starting  "$RUN" "${@@Q}"
     command -v "$RUN" >/dev/null || { echo "mx-pkexec: Command '$RUN' not found"; exit 1; }
     exec "$RUN" "${@}"
 fi
