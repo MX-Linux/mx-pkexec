@@ -7,6 +7,11 @@
 
 if test "$EUID" != 0; then
     # normal user
+    # wayland fix (chkboom)
+    if [ x"$WAYLAND_DISPLAY" != "x" ] && [ -n "${WAYLAND_DISPLAY##/*}" ]; then
+       WAYLAND_DISPLAY=$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY
+    fi
+
     QTENV="${XDG_RUNTIME_DIR:-/tmp}/mx-pkexec-qtenv.$EUID.$PPID.$$.$RANDOM$RANDOM"
     if [ -f "$QTENV" ] ; then
         rm  $QTENV
@@ -16,7 +21,7 @@ if test "$EUID" != 0; then
 	while IFS=$'\n' read -r ENV; do 
 		IFS='=' read PAR VAL < <(echo $ENV); 
 		echo "export $PAR=${VAL@Q}" >> $QTENV 
-	done < <(printenv | grep -E '^DESKTOP_SESSION|^KDE_FULL_SESSION=|^LANG=|^LANGUAGE=|^LC_|^QT_|^XDG_SESSION_TYPE|^WAYLAND_')
+	done < <(printenv | grep -E '^DESKTOP_SESSION|^KDE_FULL_SESSION=|^LANG=|^LANGUAGE=|^LC_|^QT_|^XDG_SESSION_TYPE|^XDG_CURRENT_DESKTOP|^WAYLAND_')
 
     echo "CURRENT_WORK_DIR='$PWD'" >> "$QTENV"
     chmod +r "$QTENV"
@@ -47,10 +52,15 @@ if test "$EUID" == 0; then
         fi
         PATH="/usr/local/bin:$PATH"
     fi
-    eval set "$@"
+    
+    # check if command is given within one parameter, split by eval in case
+    [ $# == 1 ] && eval set "$@"
     RUN="$1"
     shift
-    echo Starting  "$RUN" "${@}"
+    
+    # check remaining parameter are quoted twice and do unquote
+    [ $# != 0 ] && [ -z "${1##[\'\"]*}" ] && [ -z "${1%%*[\'\"]}" ] && eval set "$@"
+    echo Starting  "$RUN" "${@@Q}"
     command -v "$RUN" >/dev/null || { echo "mx-pkexec: Command '$RUN' not found"; exit 1; }
     exec "$RUN" "${@}"
 fi
