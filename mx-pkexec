@@ -5,54 +5,61 @@
 #        mx-pkexec mx-apps ...
 # original code by fehlix for MX-Linux
 
-if test "$EUID" != 0; then
+
+if [ "$EUID" != 0 ]; then
     # normal user
     # wayland fix (chkboom)
     if [ x"$WAYLAND_DISPLAY" != "x" ] && [ -n "${WAYLAND_DISPLAY##/*}" ]; then
        WAYLAND_DISPLAY=$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY
     fi
+    pkexec /usr/bin/mx-pkexec "${@}"
 
-    QTENV="${XDG_RUNTIME_DIR:-/tmp}/mx-pkexec-qtenv.$EUID.$PPID.$$.$RANDOM$RANDOM"
-    if [ -f "$QTENV" ] ; then
-        rm  $QTENV
-    fi
-    umask 0022
-	touch "$QTENV"
-	while IFS=$'\n' read -r ENV; do 
-		IFS='=' read PAR VAL < <(echo $ENV); 
-		echo "export $PAR=${VAL@Q}" >> $QTENV 
-	done < <(printenv | grep -E '^DESKTOP_SESSION|^KDE_FULL_SESSION=|^LANG=|^LANGUAGE=|^LC_|^QT_|^XDG_SESSION_TYPE|^XDG_CURRENT_DESKTOP|^WAYLAND_')
-
-    echo "CURRENT_WORK_DIR='$PWD'" >> "$QTENV"
-    chmod +r "$QTENV"
-    pkexec /usr/bin/mx-pkexec "--qtenv" "$QTENV" "${@}"
-    if [ -f "$QTENV" ] ; then
-       rm  $QTENV
-    fi
-fi
-if test "$EUID" == 0; then
+else
     # root user
-    # set XDG_RUNTIME_DIR - do nothing if already set
-    if [ x"$XDG_RUNTIME_DIR" = "x" ]; then
+    # XDG_RUNTIME_DIR - create a valid runtime dir in case it's missing
+    if [ "$XDG_RUNTIME_DIR" != "/run/user/0" ]; then
       XDG_RUNTIME_DIR=/run/user/0
       export XDG_RUNTIME_DIR
       [ -d $XDG_RUNTIME_DIR ] || mkdir -p $XDG_RUNTIME_DIR
       chmod 700 $XDG_RUNTIME_DIR
       chown 0:0 $XDG_RUNTIME_DIR
     fi
-    if  [ "x$1" = "x--qtenv" ]; then
-        QTENV="$2"
-        shift
-        shift
-        if [ -f "$QTENV" -a  "x$QTENV" != "x${QTENV#*/mx-pkexec-qtenv.}" ] ; then 
-            . "$QTENV"
-            rm  "$QTENV"
-            cd "${CURRENT_WORK_DIR}" 
-            unset CURRENT_WORK_DIR
-        fi
-        PATH="/usr/local/bin:$PATH"
-    fi
-    
+    # add /usr/local/bin as first entry into PATH if not already
+    [ -z "${PATH##/usr/local/bin:*}" ] || PATH="/usr/local/bin:$PATH"
+
+    # put pattern list of environment variables we want get 
+    # from users environment into an array
+    __ENVIRONEMENT_PATTERN__=(
+    DESKTOP_SESSION=
+    KDE_FULL_SESSION=
+    LANG=
+    LANGUAGE=
+    LC_[[:alpha:]]+=
+    PWD=
+    QT_[[:alnum:]_]+=
+    XDG_CURRENT_DESKTOP=
+    XDG_SESSION_TYPE=
+    WAYLAND_DISPLAY=
+    )
+    # combine array into a string of space separated entries 
+    __ENVIRONEMENT_PATTERN__="${__ENVIRONEMENT_PATTERN__[*]}"
+    # replace spaces with pipe-symbole as pattern alternative
+    __ENVIRONEMENT_PATTERN__="^(${__ENVIRONEMENT_PATTERN__// /|})"
+    # read environment variables from users process environement table
+    while read -r; do  
+        IFS='=' read -r  k v  <<<"$REPLY" 
+        # remove any 'bad' special char's like back-quotes and dollar sign
+        v="${v//[\`\$]/}"
+        # change to user working dir
+        [ -z "${k##PWD=*}" ] && cd "$v" && continue
+        # echo export $k="${v@Q}"  
+        export $k="$v"  
+    done < <( xargs -0 -L1 -a /proc/$PPID/environ \
+            | grep -E "${__ENVIRONEMENT_PATTERN__}")
+
+    unset k v
+    unset __ENVIRONEMENT_PATTERN__
+
     # check if command is given within one parameter, split by eval in case
     [ $# == 1 ] && eval set "$@"
     RUN="$1"
@@ -60,7 +67,7 @@ if test "$EUID" == 0; then
     
     # check remaining parameter are quoted twice and do unquote
     [ $# != 0 ] && [ -z "${1##[\'\"]*}" ] && [ -z "${1%%*[\'\"]}" ] && eval set "$@"
-    echo Starting  "$RUN" "${@@Q}"
+    echo Starting "$RUN" "${@@Q}"
     command -v "$RUN" >/dev/null || { echo "mx-pkexec: Command '$RUN' not found"; exit 1; }
     exec "$RUN" "${@}"
 fi
