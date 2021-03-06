@@ -2,8 +2,7 @@
 # helper to run X-apps with mx-pkexec
 # part of mx-pkexec package
 
-P="" ; C="" ; N=""
-
+unset P  C  N  prev
 for i in "$@"; do
    case "$prev" in
      -p)
@@ -22,3 +21,4 @@ done
 	   exit
    }
 }
+unset P  C  N  prev i 

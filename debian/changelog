@@ -1,3 +1,10 @@
+mx-pkexec (21.03.01) mx; urgency=medium
+
+  * retain environement variables from users proc table
+  * su-to-rootrc adjustment
+
+ -- fehlix <fehlix@mxlinux.org>  Fri, 05 Mar 2021 18:25:54 -0400
+
 mx-pkexec (20.06.02) UNRELEASED; urgency=medium
 
   * more environment variables, wayland values, XDG_CURRENT_DESKTOP
