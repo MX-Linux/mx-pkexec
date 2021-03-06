@@ -1,3 +1,9 @@
+mx-pkexec (21.03.02) mx; urgency=medium
+
+  * fix working directory
+
+ -- fehlix <fehlix@mxlinux.org>  Sat, 06 Mar 2021 18:37:21 -0400
+
 mx-pkexec (21.03.01) mx; urgency=medium
 
   * retain environement variables from users proc table
