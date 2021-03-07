@@ -51,7 +51,7 @@ else
         # remove any 'bad' special char's like back-quotes and dollar sign
         v="${v//[\`\$]/}"
         # change to user working dir
-        [ -z "${k##PWD=*}" ] && cd "$v" && continue
+        [ "$k" = "PWD" ] && cd "$v" && continue
         # echo export $k="${v@Q}"  
         export $k="$v"  
     done < <( xargs -0 -L1 -a /proc/$PPID/environ \
