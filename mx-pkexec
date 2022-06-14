@@ -32,7 +32,6 @@ else
     __ENVIRONEMENT_PATTERN__=(
     DESKTOP_SESSION=
     KDE_FULL_SESSION=
-    HOME=
     LANG=
     LANGUAGE=
     LC_[[:alpha:]]+=
